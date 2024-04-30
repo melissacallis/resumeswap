@@ -1,6 +1,7 @@
-### Hi there 👋
+### Hi there 👋 and Welcome to my Porfolio where I showcase my 📚 Projects 📶
 
-👍 Hello, I'm Melissa. Data Analyst with expertise in data analysis and reporting, query optimization, database design, and data modelling.
+
+👍"I'm Melissa, a studying Data Analyst and self-taught Python Developer, specializing in data analysis and reporting, query optimization, database design, and data modeling."
 
 #### Skills:
 - ✅ Querying data using Python, R, and SQL.
@@ -8,9 +9,7 @@
 - ✅ Developing dashboards on Tableau.
 - ✅ Data analysis and reporting.
 
-#### Projects:
-📚 Projects 📶
-- Welcome to my portfolio, where I showcase my projects.
+
 
 #### Tools:
 🛠️ Tools ⏫
