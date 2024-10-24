@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit {{ name }}'s Resume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <h1>Edit Your Resume</h1>
+
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" value="{{ name }}">
+
+        <label for="job_title">Job Title</label>
+        <input type="text" name="job_title" id="job_title" value="{{ job_title }}">
+
+        <label for="linkedin">LinkedIn</label>
+        <input type="url" name="linkedin" id="linkedin" value="{{ linkedin }}">
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" value="{{ email }}">
+
+        <label for="phone">Phone</label>
+        <input type="tel" name="phone" id="phone" value="{{ phone }}">
+
+        <label for="city">City</label>
+        <input type="text" name="city" id="city" value="{{ city }}">
+
+        <label for="professional_summary">Professional Summary</label>
+        <textarea name="professional_summary" id="professional_summary">{{ professional_summary }}</textarea>
+
+        <label for="responsibilities">Responsibilities</label>
+        <textarea name="responsibilities" id="responsibilities">{{ responsibilities|join:'|' }}</textarea>
+
+        <label for="certifications">Certifications</label>
+        <textarea name="certifications" id="certifications">{{ certifications|join:',' }}</textarea>
+
+        <label for="skills">Skills</label>
+        <input type="text" name="skills" id="skills" value="{{ skills|join:',' }}">
+
+        <label for="education">Education</label>
+        <textarea name="education" id="education">{{ education|join:'~~' }}</textarea>
+
+        <input type="submit" value="Save Changes">
+    </form>
+
+</body>
+</html>
+
+
+
