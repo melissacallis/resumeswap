@@ -15,10 +15,15 @@ from weasyprint import HTML, CSS
 import tempfile
 from django.template.loader import render_to_string
 import re
+import os
+from dotenv import load_dotenv
 
 # Configure the Gemini API key
 gemini_api_key = os.environ.get("GEMINI_API_KEY")
 configure(api_key=gemini_api_key)
+
+# Set the API key from environment variables
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Create the Gemini model instance
 model = GenerativeModel('gemini-pro')

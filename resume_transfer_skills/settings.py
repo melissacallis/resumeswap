@@ -15,7 +15,7 @@ SECRET_KEY = 'your-secret-key-here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Set to False in production
 
-ALLOWED_HOSTS = ['https://resume-app-fe1365adc407.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['https://resume-app-fe1365adc407.herokuapp.com', '127.0.0.1', 'localhost', '.github.dev']
   # Update this for production with your domain
 
 
@@ -126,9 +126,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Load environment variables from the .env file
 load_dotenv()
 
+# Set the API key from environment variables
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
-GEMINI_API_KEY = os.getenv('AIzaSyBbJpz0FsE6sYPz6Ku78UCLWCWqXkFWImI')
 
-django_heroku.settings(locals())
