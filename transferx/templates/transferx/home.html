@@ -58,11 +58,25 @@
                 <textarea id="job_b" name="job_b" placeholder="Paste the target job description here..." required></textarea>
             </div>
 
-            <!-- Certifications -->
-            <div class="form-row">
-                <label for="certifications">Certifications:</label>
-                <textarea id="certifications" name="certifications" placeholder="Python Programming, Introduction to Cloud Computing IBM, etc." required></textarea>
+            <h3>Certifications</h3>
+            <div id="certifications-container">
+                <input type="text" name="certifications[]" placeholder="Certification 1">
+                <input type="text" name="certifications[]" placeholder="Certification 2">
+                <input type="text" name="certifications[]" placeholder="Certification 3">
             </div>
+            <button type="button" onclick="addCertification()">Add Another Certification</button>
+            
+            <script>
+                function addCertification() {
+                    const container = document.getElementById('certifications-container');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = 'certifications[]';
+                    input.placeholder = 'New Certification';
+                    container.appendChild(input);
+                }
+            </script>
+            
 
             <!-- Education -->
             <h2>Education</h2>

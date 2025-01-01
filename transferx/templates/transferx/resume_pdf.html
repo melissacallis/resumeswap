@@ -15,22 +15,21 @@
             line-height: 1.5;
         }
     
-        /* Keep name and job title together in the same line */
         h1 {
-            font-size: 20pt;  /* Name remains the largest */
+            font-size: 20pt;
             margin-bottom: 15px;
             letter-spacing: 0.5px;
             text-align: left;
         }
     
         .job-title {
-            font-size: 16pt; /* Slightly smaller than the name */
-            color: #333; /* Differentiated color */
+            font-size: 16pt;
+            color: #333;
             font-weight: normal;
         }
     
         h2, h3 {
-            font-size: 12pt;  /* Same size as Professional Summary */
+            font-size: 12pt;
             margin-top: 15px;
             margin-bottom: 3px;
             color: #333;
@@ -43,7 +42,6 @@
             font-size: 11pt;
         }
     
-        /* Education Section */
         .education-list {
             display: flex;
             flex-wrap: wrap;
@@ -54,7 +52,7 @@
         }
     
         .education-item {
-            width: 100%;  /* Default to 100% width for single education */
+            width: 100%;
             margin-bottom: 10px;
         }
     
@@ -76,9 +74,8 @@
             text-align: left;
         }
     
-        /* Set all education section font sizes to 10pt */
         .education-school, .education-degree, .education-dates {
-            font-size: 10pt;  /* Set font size to 10pt */
+            font-size: 10pt;
             margin: 0;
             padding: 0;
             line-height: 1.2;
@@ -94,50 +91,44 @@
             .education-item.double-column {
                 width: 100%;
             }
-    
-            .education-dates {
-                font-size: 9pt;  /* Slightly smaller on smaller screens */
-            }
         }
 
-        /* Flexbox container for skills and certifications */
         .skills-certifications {
             display: flex;
             justify-content: space-between;
-            gap: 20px; /* Add space between the columns */
+            gap: 20px;
         }
 
         .skills-column, .certifications-column {
-            width: 48%; /* Make each column take up 48% of the width */
+            width: 48%;
         }
 
         .skills-list, .certifications-list {
-            list-style-type: disc; /* Bullet points */
-            padding-left: 20px; /* Indentation for bullets */
+            list-style-type: disc;
+            padding-left: 20px;
         }
 
         .skills-list li, .certifications-list li {
-            margin-bottom: 5px; /* Space between items */
-            font-size: 10pt; /* Smaller font size */
+            margin-bottom: 5px;
+            font-size: 10pt;
         }
 
-        /* Ensure that both sections appear on the same row on larger screens */
         @media screen and (max-width: 600px) {
             .skills-certifications {
-                flex-direction: column; /* Stack the columns vertically on smaller screens */
+                flex-direction: column;
             }
 
             .skills-column, .certifications-column {
-                width: 100%; /* Full width on smaller screens */
+                width: 100%;
             }
         }
 
         .date {
-    font-size: 10pt; /* Smaller font size for the date */
-    color: #555; /* Optional: lighter color for the date */
-    margin-top: 0; /* Remove top margin for single spacing */
-    line-height: 1.2; /* Ensure the line height is closer for single-spacing */
-}
+            font-size: 10pt;
+            color: #555;
+            margin-top: 0;
+            line-height: 1.2;
+        }
     </style>
 </head>
 <body>
@@ -158,8 +149,8 @@
 
     <!-- Key Skills and Accomplishments -->
     <div class="section">
-        <p> <h3>LiveOps Consultant - Teleservice Analytics</h3>
-        <div class="date">March 2016 - March 2022</p> <!-- Date in smaller font and single-spaced -->
+        <h3>LiveOps Consultant - Teleservice Analytics</h3>
+        <p class="date">March 2016 - March 2022(Contract ended. Began extensive tech training)</p>
         <ul class="responsibilities-bullets">
             {% for responsibility in responsibilities %}
                 <li>{{ responsibility }}</li>
@@ -175,7 +166,7 @@
                 <li class="education-item {% if education|length > 1 %}double-column{% endif %}">
                     <div class="education-row">
                         <div class="education-left">
-                            <p class="education-school">{{ school }}</p> <!-- School on top -->
+                            <p class="education-school">{{ school }}</p>
                             <p class="education-degree">{{ degree }}</p>
                             <p class="education-dates">{{ start_date }} - {{ end_date }}</p>
                         </div>
@@ -185,32 +176,28 @@
         </ul>
     </div>
 
+    <!-- Certifications and Skills -->
+    <div class="section skills-certifications">
+        <div class="skills-column">
+            <h3>Skills</h3>
+            <ul class="skills-list">
+                {% for skill in skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-   <!-- Certifications and Skills -->
-   <div class="section skills-certifications">
-    <!-- Skills Column -->
-    <div class="skills-column">
-        <h3>Skills</h3>
-        <ul class="skills-list">
-            {% for skill in skills %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <div class="section">
-        <h3>Certifications</h3>
-        <ul class="certifications-list">
-            {% for cert, link in certifications %}
-                <li>
-                    {% if link %}
-                        <a href="{{ link }}" target="_blank">{{ cert }}</a>
-                    {% else %}
-                        {{ cert }}
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+        <div class="certifications-column">
+            
+            <div class="certifications-column">
+                
+                
+                <h3>Certifications</h3>
+                <ul class="certifications-list">
+                    {% for cert in certifications %}
+                        <li>{{ cert }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+   

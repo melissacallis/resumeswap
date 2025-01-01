@@ -1,3 +1,4 @@
+
 import os
 import io
 from django.shortcuts import render
@@ -85,107 +86,35 @@ Ensure that both sections are distinct and follow the format above. No other str
 @csrf_exempt
 def home(request):
     if request.method == 'POST':
-        # Process the form data
-        name = request.POST['name']
-        job_title = request.POST['job_title']
-        linkedin = request.POST['linkedin']
-        email = request.POST['email']
-        phone = request.POST['phone']
-        city = request.POST['city']
-        job_a = request.POST['job_a']
-        job_b = request.POST['job_b']
-        certifications = request.POST['certifications']
-        schools = request.POST.getlist('school[]')
-        degrees = request.POST.getlist('degree[]')
-        start_dates = request.POST.getlist('start_date[]')
-        end_dates = request.POST.getlist('end_date[]')
-        skills = request.POST['skills']
+        # Collect and process form data
+        name = request.POST.get('name', '')
+        job_title = request.POST.get('job_title', '')
+        linkedin = request.POST.get('linkedin', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        city = request.POST.get('city', '')
+        job_a = request.POST.get('job_a', '')
+        job_b = request.POST.get('job_b', '')
 
+        # Retrieve certifications as a list
+        certifications = request.POST.getlist('certifications[]', [])
+        certifications = [cert.strip() for cert in certifications if cert.strip()]
+
+        # Education processing
+        schools = request.POST.getlist('school[]', [])
+        degrees = request.POST.getlist('degree[]', [])
+        start_dates = request.POST.getlist('start_date[]', [])
+        end_dates = request.POST.getlist('end_date[]', [])
         education = list(zip(schools, degrees, start_dates, end_dates))
 
+        # Skills
+        skills = request.POST.get('skills', '').split(',')
 
-        # Generate resume content
+        # Responsibilities and job content generation
         job_c_output = generate_job_c(job_a, job_b)
-
-        # Ensure proper parsing
         professional_summary, responsibilities = parse_job_c_output(job_c_output)
 
-        # Render the output.html with the prefilled fields for review
-        return render(request, 'transferx/output.html', {
-            'name': name,
-            'job_title': job_title,
-            'linkedin': linkedin,
-            'email': email,
-            'phone': phone,
-            'city': city,
-            'professional_summary': professional_summary,  # Professional Summary
-            'responsibilities': responsibilities,  # Job Responsibilities
-            'certifications': certifications,
-            'education': education,
-            'skills': skills,
-        })
-
-    # If not POST, render the home.html form
-    return render(request, 'transferx/home.html')
-
-
-@csrf_exempt
-def generate_pdf(request):
-    if request.method == 'POST':
-        # Collect form data
-        name = request.POST.get('name')
-        job_title = request.POST.get('job_title')
-        linkedin = request.POST.get('linkedin')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        city = request.POST.get('city')
-        professional_summary = request.POST.get('professional_summary')
-
-        # Deserialize responsibilities back into a list
-        responsibilities_raw = request.POST.get('responsibilities', '')
-        responsibilities = [resp.strip() for resp in responsibilities_raw.split('|') if resp.strip()]
-
-        # Deserialize education back into a list of tuples
-        education_raw = request.POST.get('education', '')
-        education = [tuple(edu.split('~~')) for edu in education_raw.split('|') if edu.strip() and len(edu.split('~~')) == 4]
-
-        # Certifications and skills
-        certifications = request.POST.get('certifications', '')
-        skills = request.POST.get('skills', '')
-
-        # Split skills and certifications by commas into lists
-        skills = [skill.strip() for skill in request.POST.get('skills', '').split(',')]
-        # Split certifications and skills correctly by commas
-        #certifications = [cert.strip() for cert in certifications.split(',') if cert.strip()]
-        #skills = [skill.strip() for skill in skills.split(',') if skill.strip()]
-
-        
-
-        #certifications = [cert.strip() for cert in request.POST.get('certifications', '').split(',')]
-        # Process certifications: split by commas, then link previous word to the following URL
-        # Process certifications: split by commas, then link previous word to the following URL
-        certifications_raw = request.POST.get('certifications', '')
-        certifications = []
-        
-        # Regex to detect URLs (http:// or https://)
-        url_regex = re.compile(r'(http[s]?://[^\s]+)')
-        
-        certs = certifications_raw.split(',')
-        for i, cert in enumerate(certs):
-            cert = cert.strip()  # Remove any extra spaces or line breaks
-            # Clean up URLs (remove any extra line breaks or invalid characters)
-            cert = cert.replace('\n', '').replace('\r', '')  # Remove line breaks from URL
-            
-            # Check if this is a URL
-            if url_regex.match(cert) and i > 0:
-                # Link the previous certification to this URL
-                certifications[-1] = (certs[i - 1].strip(), cert)
-            else:
-                # Add as plain text if it's not a URL
-                certifications.append((cert, None))
-
-
-        # Prepare context for the template
+        # Prepare context
         context = {
             'name': name,
             'job_title': job_title,
@@ -194,25 +123,55 @@ def generate_pdf(request):
             'phone': phone,
             'city': city,
             'professional_summary': professional_summary,
-            'responsibilities': responsibilities,  # Pass as a list
-            'education': education,  # Pass as a list of tuples
-            'certifications': certifications,
-            'skills': skills,
+            'responsibilities': responsibilities,
+            'certifications': certifications,  # Certifications as a list
+            'education': education,  # Education as a list of tuples
+            'skills': skills,  # Skills as a list
         }
 
-        #education_raw = request.POST.get('education', '')
-        print("Raw education data:", education_raw)  # Debugging: check if education data is passed correctly
-        #education = [tuple(edu.split(',')) for edu in education_raw.split('|') if len(edu.split(',')) == 4]
-        print("Parsed education data:", education)  # Debugging: check the parsed data
+        # Render output.html
+        return render(request, 'transferx/output.html', context)
 
+    return render(request, 'transferx/home.html')
+
+
+
+
+@csrf_exempt
+def generate_pdf(request):
+    if request.method == 'POST':
+        # Retrieve context from POST
+        context = {
+            'name': request.POST.get('name', ''),
+            'job_title': request.POST.get('job_title', ''),
+            'linkedin': request.POST.get('linkedin', ''),
+            'email': request.POST.get('email', ''),
+            'phone': request.POST.get('phone', ''),
+            'city': request.POST.get('city', ''),
+            'professional_summary': request.POST.get('professional_summary', ''),
+            'responsibilities': request.POST.get('responsibilities', '').split('|'),
+            'education': [
+                tuple(edu.split('~~')) for edu in request.POST.get('education', '').split('|') if edu.strip()
+            ],
+            'certifications': request.POST.get('certifications', '').split(','),  # Processed as a list
+            'skills': request.POST.get('skills', '').split(','),
+        }
+
+        # Debugging certifications
+        print("Certifications in generate_pdf:", context['certifications'])
+
+        # Render PDF
         html_string = render_to_string('transferx/resume_pdf.html', context)
-        print(html_string)  # Add this to debug the HTML content before PDF generation
-        #return HttpResponse(html_string)  # Return HTML to check it in the browser
+
+        # Generate the PDF
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename="{name}_Resume.pdf"'
+        response['Content-Disposition'] = f'attachment; filename="{context["name"]}_Resume.pdf"'
         HTML(string=html_string).write_pdf(response)
 
         return response
+
+    return redirect('home')
+
 
 
 
@@ -281,27 +240,3 @@ def load_edit_resume(request):
 
     # If not a POST request, redirect to the home page or handle accordingly
     return redirect('home')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
