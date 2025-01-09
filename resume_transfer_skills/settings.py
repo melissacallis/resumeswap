@@ -15,7 +15,7 @@ SECRET_KEY = 'your-secret-key-here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Set to False in production
 
-ALLOWED_HOSTS = ['https://resume-app-fe1365adc407.herokuapp.com', '127.0.0.1', 'localhost', '.github.dev']
+ALLOWED_HOSTS = ['https://resume-app-fe1365adc407.herokuapp.com', 'updatedresume-b1930a1d9499.herokuapp.com', '127.0.0.1', 'localhost', '.github.dev']
   # Update this for production with your domain
 
 
