@@ -27,7 +27,7 @@ configure(api_key=gemini_api_key)
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # Create the Gemini model instance
-model = GenerativeModel('gemini-pro')
+model = GenerativeModel('gemini-2.0-flash')
 
 def generate_job_c(job_a, job_b):
     prompt = f"""
@@ -48,9 +48,9 @@ Instructions:
 3. **Reword**: Take what Job B asks for and reword what the person has done in Job A to match it.  
 4. **Make it sound better**: Adjust the skills and tasks from Job A to match about 80% of what Job B wants. Use fancy words or industry terms from Job B where it makes sense.  
 5. **Professional Summary**: Start with a short paragraph about the person’s skills, accomplishments, and goals. This should be based on Job A but written to match what Job B is asking for. Then incorporate this summary:
-    The Data Science Master’s Program at Eastern University helped me build a strong foundation in analyzing data, developing insightful reports, solving complex problems, automating tasks, 
-    and working effectively with cross-functional teams. I would draw on these skills to monitor performance, ensure data-driven decision-making, and collaborate with stakeholders to optimize processes. 
-    My technical background would enable me to implement smarter strategies, driving higher efficiency and maintaining high-quality standards across all programs.
+    My experience helped me build a strong foundation in patient care, developing insightful reports, solving complex problems, working with team collaborations, 
+    and effectively meeting deadlines. I would draw on these skills to monitor performance, ensure data-driven decision-making, and collaborate with stakeholders to optimize processes. 
+    My technical and administrative background would enable me to implement smarter strategies, driving higher efficiency and maintaining high-quality standards across all programs.
 6. **Key Skills and Accomplishments**: After the summary, make a section called **'Key Skills and Accomplishments'** with bullet points. Each point should list something the person did in Job A, but make it sound like it fits Job B.  
 7. **Keep it real**: Stay true to what the person really did in Job A. If Job B mentions tasks that are way more advanced, simplify them to match what the person actually did.  
 8. **Simplify advanced stuff**: If Job B talks about leading a big team but Job A only involves working with small groups or alone, make sure to reflect that difference.  
